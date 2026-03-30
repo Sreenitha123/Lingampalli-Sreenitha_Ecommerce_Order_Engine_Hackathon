@@ -28,16 +28,39 @@ It is designed to mimic real backend challenges such as concurrency, stock reser
 - Modular Design (Simulating Microservices)
 
 # 3. Design Approach
-## 🏗️ Design Approach
-The system is designed using a modular and scalable approach:
+## 🔄System Flow (Design Approach)
 
-- Separate components for Products, Cart, Orders, and Payment
-- Used Python dictionaries for fast in-memory storage
-- Implemented locking mechanism to avoid race conditions
-- Used event queue to simulate event-driven architecture
-- Applied state machine logic to manage order lifecycle
-- Implemented rollback mechanism to ensure data consistency
-- Used threading to simulate concurrency and reservation expiry
+Start
+  ↓
+User selects option (Menu)
+  ↓
+Product Management / Cart / Order
+  ↓
+Add to Cart → Check Stock
+  ↓
+Reserve Stock (Lock)
+  ↓
+Place Order
+  ↓
+Validate Cart
+  ↓
+Apply Discount
+  ↓
+Create Order (CREATED)
+  ↓
+Process Payment
+  ↓
+ ┌───────────────┬───────────────┐
+ ↓                               ↓
+Success                      Failure
+ ↓                               ↓
+Update Status → PAID         Rollback
+ ↓                               ↓
+Trigger Events              Restore Stock
+ ↓                               ↓
+Complete Order             Mark FAILED
+  ↓
+End
 
 # 4. Assumptions
 ## ⚠️Assumptions
